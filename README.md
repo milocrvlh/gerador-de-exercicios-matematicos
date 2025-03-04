@@ -1,11 +1,12 @@
 # mathgenerator
-A program to generate math problems in a pretty format
+A program to generate arithmetic problems in a pretty format, with plans to expand to advanced math.
 
+Forked from djotaku's repository. (If you're reading this, you have my gratitude)
 based on a template provided by /u/lanemik on reddit
 
 # Running
 
-python3 mathgenerator.py
+python mathgenerator.py
 
 When it's done:
 
