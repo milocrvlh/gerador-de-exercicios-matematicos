@@ -1,4 +1,4 @@
-# mathgenerator
+# arithmetic-generator
 A program to generate arithmetic problems in a pretty format, with plans to expand to advanced math.
 
 Forked from djotaku's repository. (If you're reading this, you have my gratitude)
