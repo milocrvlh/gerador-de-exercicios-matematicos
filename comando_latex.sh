@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Gerando Exercícios"
-python generator.py
+python gerador.py
 
 echo "Parafernalha do Latex "
 latex exercicios.tex
