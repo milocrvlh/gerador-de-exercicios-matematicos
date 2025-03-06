@@ -9,9 +9,9 @@ based on a template provided by /u/lanemik on reddit
 
 # Para rodar
 Digitar no terminal:
-python generator.py
+python gerador.py
 
 # Modificações
-A plataforma não é intuitiva ao usuário ainda, e para modificar a folha de exercícios é necessário editar partes do cabeçalho, dos teoremas ou propriedades necessárias, e é necessário colocar a função que gera os problemas que se quer usar, explicada no código.
+A plataforma não tem GUI ainda, e para modificar a folha de exercícios é necessário editar, no gerador.py, partes do cabeçalho, dos teoremas ou propriedades usadas, e também é preciso selecionar quais tipos de problemas que se quer usar, através de funções, explicada no código.
 
 [exercicios.pdf](https://github.com/user-attachments/files/19106904/exercicios.pdf)
