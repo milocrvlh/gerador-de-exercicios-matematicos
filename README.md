@@ -6,15 +6,15 @@ based on a template provided by /u/lanemik on reddit
 
 # Running
 
-python mathgenerator.py
+python generator.py
 
 When it's done:
 
-latex worksheet.tex
+latex exercicios.tex
 
 To print, open in something that can view dvi files. eg:
 
-okular worksheet.dvi
+okular exercicios.dvi
 
 # Modifications
 

@@ -1,11 +1,8 @@
 #!/bin/bash
 
-echo "Generating random facts"
-python math_facts_add_sub.py
+echo "Gerando Exercícios"
+python generator.py
 
-echo "latex stuff"
-latex worksheet.tex
-dvipdfm worksheet.dvi
-
-echo "print"
-lp -d HL3140CW worksheet.pdf
+echo "Parafernalha do Latex "
+latex exercicios.tex
+dvipdfm exercicios.dvi
