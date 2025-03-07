@@ -4,10 +4,15 @@ Uma aplicação feita para gerar problemas matemáticos num formato limpo e bem 
 
 # Acknowledgments
 
-Forked from djotaku's repository. (If you're reading this, you have my gratitude)
-based on a template provided by /u/lanemik on reddit
+Forked from djotaku's repository (if you're reading this, you have my gratitude).
+Based on a template provided by /u/lanemik on reddit.
+
+# Requerimentos 
+
+É necessário ter alguma distribuição do LaTeX. Recomendo o TeX Live.
 
 # Para rodar
+
 Digitar no terminal:
 python gerador.py
 
