@@ -27,34 +27,28 @@ latex_template = """
 \\fbox{{\\textbf{{\\theprob}}}} \\refstepcounter{{prob}}
 }} % Chama o número do problema
 
-
 \\newcommand{{\\problem}}[1]{{\\makebox[0.5cm]{{\\itm}}   
   \\begin{{minipage}}[t]{{\\textwidth-0.5cm}} #1 \\end{{minipage}} 
 }} % Um ambiente para uma declaração de problema em uma ou mais linhas
-
 
 \\newcommand{{\\pairofprobs}}[2]{{
   \\begin{{minipage}}[t]{{0.5\\textwidth}}\\itm #1 \\end{{minipage}} 
   \\begin{{minipage}}[t]{{0.5\\textwidth}}\\itm #2 \\end{{minipage}} 
 }} % Coloca dois problemas na mesma linha
 
-
 \\newcommand{{\\threeprobs}}[3]{{
 \\begin{{minipage}}[t]{{0.31\\textwidth}}\\itm #1 \\end{{minipage}} \\hfill
- \\begin{{minipage}}[t]{{0.31\\textwidth}}\\itm #2 \\end{{minipage}} \\hfill 
- \\begin{{minipage}}[t]{{0.31\\textwidth}}\\itm #3 \\end{{minipage}}
+\\begin{{minipage}}[t]{{0.31\\textwidth}}\\itm #2 \\end{{minipage}} \\hfill 
+\\begin{{minipage}}[t]{{0.31\\textwidth}}\\itm #3 \\end{{minipage}}
 }} % Coloca três problemas na mesma linha
-
 
 \\newcounter{{choice}} % Contador para problemas de múltipla escolha 
 
 \\setcounter{{choice}}{{1}} % Inicia o contador com o valor 1
 
-
 \\newcommand\\achoice{{
 (\\alph{{choice}}) \\stepcounter{{choice}}
 }} % Gera letra para opção de múltipla escolha
-
 
 \\newcommand{{\\answers}}[5]{{\\vspace*{{-7mm}} 
   \\begin{{tabular}}{{l@{{\\hspace{{1mm}}}}p{{0.9\\textwidth}}}}
@@ -67,24 +61,23 @@ latex_template = """
 % ARITMÉTICA (exemplos na próxima seção) 
 % Quatro Operações
 
-
 %% a divisão deve ser ajustada para o formato brasileiro
 
 \\newcommand\\divi[2]{{
 $\\begin{{array}}{{r|}}
-\\hline #2 \\
+\\hline #2 \\\\
 \\end{{array}} \\! #1$
 }}
 
 \\newcommand\\mult[2]{{
 $\\begin{{array}}{{rr}} 
- & #1 \\\\ 
- \\times & #2 \\\\ \\hline 
- \\end{{array}}$}}
- 
+& #1 \\\\ 
+\\times & #2 \\\\ \\hline 
+\\end{{array}}$}}
+
 \\newcommand\\addi[2]{{
   $\\begin{{array}}{{rr}} 
-   &  #1 \\\\ 
+  &  #1 \\\\ 
     + & #2 \\\\ \\hline 
   \\end{{array}}$}}
 
@@ -94,7 +87,6 @@ $\\begin{{array}}{{rr}}
     - & #2 \\\\ \\hline
   \\end{{array}}$}}
 
-  
 % Álgebra 
 % Produtos Notáveis
 \\newcommand\\triquadpftd[2]{{$
@@ -102,7 +94,13 @@ $\\begin{{array}}{{rr}}
 $}}
 
 \\newcommand\\triquadpftf[3]{{$
-#1a^2 + #3ab + #2b^2=
+#1a^2 + #3ab + #2b^2 
+$}}
+
+% Cálculo
+
+\\newcommand\\polinomial[11]{{$
+f(x)= #1x^{{10}} + #2x^9 + #3x^8 + #4x^7 + #5x^6 + #6x^5 + #7x^4 + #8x^3 + #9x^2 + #10x + #11
 $}}
 
 %%-------------------------------------------------------------------%%
@@ -170,7 +168,7 @@ Sejam \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:
 \\end{{teorema}}
 
 \\textit{{Direções:}} 
- do problema 1 a 80 desenvolva as expressões usando o Trinômio Quadrado Perfeito. Do problema 81 a 100, fatore as expressões usando o mesmo teorema.
+do problema 1 a 80 desenvolva as expressões usando o Trinômio Quadrado Perfeito. Do problema 81 a 100, fatore as expressões usando o mesmo teorema.
 
 {problems}
 
@@ -193,7 +191,6 @@ def adicao_montada():
 def multiplicacao_montada():
     (a,b) = random.choices(range(2,10), k=2)
     return f'\\mult{{{a}}}{{{b}}}'
-
 
 # Existe um problema em que um número primo aparece para ser dividido por eles mesmos
 # Melhorar para que isso não aconteça
@@ -218,13 +215,17 @@ def trinomio_quadrado_perfeito_fat():
     c = 2*a*b
     return f'\\triquadpftf{{{a}}}{{{b}}}{{{c}}}'
 
-
 def fator_comum_evidência():
     pass 
 
+# Cálculo
+def derivada_polinomial():
+  coeficientes = random.choices(range(1, 12), k=11)
+  return f'\\polinomial{{{coeficientes[0]}}}{{{coeficientes[1]}}}{{{coeficientes[2]}}}{{{coeficientes[3]}}}{{{coeficientes[4]}}}{{{coeficientes[5]}}}{{{coeficientes[6]}}}{{{coeficientes[7]}}}{{{coeficientes[8]}}}{{{coeficientes[9]}}}{{{coeficientes[10]}}}'
+
 def get_row_of_random_problems(exercise_type):
     if exercise_type == 'tipo_a':
-        return f'\\pairofprobs{{{trinomio_quadrado_perfeito_des()}}}{{{trinomio_quadrado_perfeito_des()}}}'
+        return f'\\problem{{{trinomio_quadrado_perfeito_fat()}}}'
     elif exercise_type == 'tipo_b':
         return f'\\pairofprobs{{{trinomio_quadrado_perfeito_fat()}}}{{{trinomio_quadrado_perfeito_fat()}}}'
     # Add more types as needed
@@ -236,7 +237,7 @@ def get_rows_of_random_problems(n, exercise_type):
     return rows
 
 # Generate sections for different types of exercises
-problems_tipo_a = get_rows_of_random_problems(40, 'tipo_a')
+problems_tipo_a = get_rows_of_random_problems(45, 'tipo_a')
 problems_tipo_b = get_rows_of_random_problems(10, 'tipo_b')
 
 worksheet = latex_template.format(problems=problems_tipo_a + problems_tipo_b)
