@@ -17,7 +17,7 @@ latex_template = """
 %%-------------------------------------------------------------------%%
 
 %%----------------COMANDOS-------------------------------------------%%
-\\newcommand\\blank{{\\underline{{\\hspace{{2cm}}}}}} % Cria um espaço em branco 
+\\newcommand\\blank{{\\underline{{\\hspace{{2cm}}}}}} % Cria um ___________ 
 
 \\newcounter{{prob}} % Um novo contador para o número do problema atual
 
@@ -61,7 +61,7 @@ latex_template = """
 % ARITMÉTICA (exemplos na próxima seção) 
 % Quatro Operações
 
-%% a divisão deve ser ajustada para o formato brasileiro
+%% a divisão deve ser ajustada para o formato brasileiro %%
 
 \\newcommand\\divi[2]{{
 $\\begin{{array}}{{r|}}
@@ -98,11 +98,12 @@ $}}
 $}}
 
 % Cálculo
-
-\\newcommand\\polinomial[11]{{$
-f(x)= #1x^{{10}} + #2x^9 + #3x^8 + #4x^7 + #5x^6 + #6x^5 + #7x^4 + #8x^3 + #9x^2 + #10x + #11
-$}}
-
+\\newcommand\\polinomial[9]{{
+\\begin{{align*}}
+f(x) &= #1x^8 + #2x^7 + #3x^6 + #4x^5 + #5x^4 + #6x^3 + #7x^2 + #8x + #9 \\\\[0.5cm]
+f'(x) &=
+\\end{{align*}}
+}}
 %%-------------------------------------------------------------------%%
 
 %%-----------FORMATAÇÃO----------------------------------------------%%
@@ -153,12 +154,12 @@ Data:\\hspace*{{1cm}}/ \\hspace*{{0.5cm}}/\\hspace*{{0.5cm}} \\hfill Início: \\
 %%-----------CONTEÚDO--------------------------------------------%%
 \\section{{Produtos Notáveis}}
 
-\\begin{{axioma}}[Fator Comum em Evidência]
-Sejam \\(x\\), \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:
-\\[ 
-x(a+b) = ax + bx 
-\\]
-\\end{{axioma}}
+%%\\begin{{axioma}}[Fator Comum em Evidência] %%
+%%Sejam \\(x\\), \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:  %%
+%%\\[   %%
+%%x(a+b) = ax + bx  %%
+%%\\] %%
+%%\\end{{axioma}} %%
 
 \\begin{{teorema}}[Trinômio Quadrado Perfeito]
 Sejam \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:
@@ -168,7 +169,13 @@ Sejam \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:
 \\end{{teorema}}
 
 \\textit{{Direções:}} 
-do problema 1 a 80 desenvolva as expressões usando o Trinômio Quadrado Perfeito. Do problema 81 a 100, fatore as expressões usando o mesmo teorema.
+do problema 1 a 20 desenvolva as expressões usando o Trinômio Quadrado Perfeito. Do problema 21 a 60, fatore as expressões usando o mesmo teorema.
+
+
+\\subsection*{{Exemplos:}}
+Desenvolver: \\hspace*{{1cm}}\\((3a + 5b)^2 = 9a^2 + 30ab + 25b^2\\)
+\\\\
+Fatorar:\\hspace*{{2.2cm}}\\(16a^2 + 24ab + 9b^2 = (4a + 3b)^2\\)
 
 {problems}
 
@@ -203,31 +210,33 @@ def divisao_montada():
 
 # Álgebra
 
-def trinomio_quadrado_perfeito_des():
-    weights = [80] * 3 + [10] * 2 + [8] * 5 + [2] * 5  # Probabilidades diferentes para cada os exercícios
+def desenvolvimento_trinomio_quadrado_perfeito():
+    weights = [50] * 3 + [30] * 2 + [15] * 5 + [5] * 5  # Probabilidades diferentes para cada coeficiente
     (a, b) = random.choices(range(1, 16), weights=weights, k=2)
     return f'\\triquadpftd{{{a}}}{{{b}}}'
 
-def trinomio_quadrado_perfeito_fat():
-    weights = [80] * 3 + [10] * 2 + [8] * 5 + [2] * 2  # Probabilidades diferentes para cada os exercícios
+def fatoracao_trinomio_quadrado_perfeito():
+    weights = [80] * 3 + [10] * 2 + [8] * 5 + [2] * 2  # Probabilidades diferentes para cada coeficiente
     a = (random.choices(range(1, 13), weights=weights, k=1))[0]**2
     b = (random.choices(range(1, 13), weights=weights, k=1))[0]**2
-    c = 2*a*b
+    c = 2* int(a**(1/2))*int(b**(1/2))
     return f'\\triquadpftf{{{a}}}{{{b}}}{{{c}}}'
 
-def fator_comum_evidência():
+def fator_comum_em_evidência():
     pass 
 
 # Cálculo
-def derivada_polinomial():
-  coeficientes = random.choices(range(1, 12), k=11)
-  return f'\\polinomial{{{coeficientes[0]}}}{{{coeficientes[1]}}}{{{coeficientes[2]}}}{{{coeficientes[3]}}}{{{coeficientes[4]}}}{{{coeficientes[5]}}}{{{coeficientes[6]}}}{{{coeficientes[7]}}}{{{coeficientes[8]}}}{{{coeficientes[9]}}}{{{coeficientes[10]}}}'
+def derivada_de_polinomio():
+    coeficientes = [random.randint(1, 10) for num in range(11)]
+    return f'\\polinomial{{{coeficientes[0]}}}{{{coeficientes[1]}}}{{{coeficientes[2]}}}{{{coeficientes[3]}}}{{{coeficientes[4]}}}{{{coeficientes[5]}}}{{{coeficientes[6]}}}{{{coeficientes[7]}}}{{{coeficientes[8]}}}'
 
 def get_row_of_random_problems(exercise_type):
     if exercise_type == 'tipo_a':
-        return f'\\problem{{{trinomio_quadrado_perfeito_fat()}}}'
+        return f'\\pairofprobs{{{desenvolvimento_trinomio_quadrado_perfeito()}}}{{{desenvolvimento_trinomio_quadrado_perfeito()}}}'
     elif exercise_type == 'tipo_b':
-        return f'\\pairofprobs{{{trinomio_quadrado_perfeito_fat()}}}{{{trinomio_quadrado_perfeito_fat()}}}'
+        return f'\\pairofprobs{{{fatoracao_trinomio_quadrado_perfeito()}}}{{{fatoracao_trinomio_quadrado_perfeito()}}}'
+    elif exercise_type == 'tipo_c':
+        return f'\\problem{{{fatoracao_trinomio_quadrado_perfeito()}}}'
     # Add more types as needed
 
 def get_rows_of_random_problems(n, exercise_type):
@@ -236,11 +245,17 @@ def get_rows_of_random_problems(n, exercise_type):
         rows += '\n\n\\vspace{2cm}\n\n' + get_row_of_random_problems(exercise_type)
     return rows
 
-# Generate sections for different types of exercises
-problems_tipo_a = get_rows_of_random_problems(45, 'tipo_a')
-problems_tipo_b = get_rows_of_random_problems(10, 'tipo_b')
+# Gerar seções de diferentes tipos de exercícios
+problems_tipo_a = get_rows_of_random_problems(10, 'tipo_a')
+problems_tipo_b = get_rows_of_random_problems(20, 'tipo_b')
+problems_tipo_C = get_rows_of_random_problems(15, 'tipo_c')
 
-worksheet = latex_template.format(problems=problems_tipo_a + problems_tipo_b)
+
+# Para adicionar os problema do tipo b, basta usar '+ problems_tipo_b'
+worksheet = latex_template.format(problems=problems_tipo_a+problems_tipo_b)
 
 with open('exercicios.tex', 'w', encoding='utf-8') as f: 
     f.write(worksheet)
+
+  
+
