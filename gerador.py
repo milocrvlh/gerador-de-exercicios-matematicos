@@ -5,6 +5,8 @@ latex_template = """
 %%----------Samuel S. Watson----------------------------------------%% 
 %%----------January 2013--------------------------------------------%% 
 
+%% ATENÇÃO: Deve-se usar o dobro dos caracteres \\ e {{}} para que o código funcione em LaTeX %% 
+
 \\documentclass[12pt]{{article}} % Especifica o tamanho da fonte
 
 %%----------------PACOTES-------------------------------------------%%
