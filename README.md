@@ -5,7 +5,8 @@ Um exemplo do que é possível com o programa:
 [Exercícios - Produtos Notáveis.pdf](https://github.com/user-attachments/files/19222436/Exercicios.-.Produtos.Notaveis.pdf)
 
 # Requerimentos 
-É necessário ter alguma distribuição do LaTeX. Recomendo o TeX Live para compatibilidade com o Português.
+É necessário instalar o sympy e também alguma distribuição do LaTeX. Para o último, recomendo o TeX Live para compatibilidade com o Português.
+
 
 # Para rodar
 Digitar no terminal:
