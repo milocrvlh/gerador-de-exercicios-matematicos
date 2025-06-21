@@ -1,4 +1,5 @@
 import random
+from sympy import *
 
 latex_template = """
 %%----------LaTeX template for teachers-----------------------------%%
@@ -79,10 +80,22 @@ $\\begin{{array}}{{rr}}
 
 \\newcommand\\addi[2]{{
   $\\begin{{array}}{{rr}} 
-  &  #1 \\\\ 
+   &  #1 \\\\ 
     + & #2 \\\\ \\hline 
   \\end{{array}}$}}
 
+  \\newcommand\\addim[3]{{
+  $\\begin{{array}}{{rr}} 
+        &#3 \\\\
+        &#1 \\\\ 
+    +   &#2 \\\\ \\hline 
+  \\end{{array}}$}}
+
+
+  \\newcommand\\addil[2]{{$
+#1 + #2 =
+$}}
+  
 \\newcommand\\subt[2]{{
   $\\begin{{array}}{{rr}}
     & #1 \\\\ 
@@ -97,6 +110,18 @@ $}}
 
 \\newcommand\\triquadpftf[3]{{$
 #1a^2 + #3ab + #2b^2 
+$}}
+
+\\newcommand\\fatcomevum[1]{{$
+#1
+$}}
+
+\\newcommand\\fatcomevdois[1]{{$
+#1
+$}}
+
+\\newcommand\\fatcomevtres[1]{{$
+#1
 $}}
 
 % Cálculo
@@ -136,7 +161,7 @@ f'(x) &=
 \\begin{{document}}
 
 \\begin{{center}} 
-  \\textsc{{Cálculo}} \\\\ 
+  \\textsc{{Aritmética}} \\\\ 
   \\textsc{{Prof. Milo}}
 \\end{{center}}
 
@@ -150,34 +175,12 @@ Data:\\hspace*{{1cm}}/ \\hspace*{{0.5cm}}/\\hspace*{{0.5cm}} \\hfill Início: \\
 \\fontsize{{14}}{{18pt}} \\selectfont % Aumenta o tamanho da fonte
 
 %%-----------TEOREMAS-------------------------------------------%%
-\\newtheorem{{axioma}}{{Axioma}}[section]
-\\newtheorem{{teorema}}{{Teorema}}[section]
 
 %%-----------CONTEÚDO--------------------------------------------%%
-\\section{{Produtos Notáveis}}
-
-%%\\begin{{axioma}}[Fator Comum em Evidência] %%
-%%Sejam \\(x\\), \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:  %%
-%%\\[   %%
-%%x(a+b) = ax + bx  %%
-%%\\] %%
-%%\\end{{axioma}} %%
-
-\\begin{{teorema}}[Trinômio Quadrado Perfeito]
-Sejam \\(a\\), \\(b \\in \\mathbb{{R}}\\). Então:
-\\[ 
-(a + b)^2 = a^2 + 2ab + b^2 
-\\]
-\\end{{teorema}}
+\\section*{{Adição e Tabuada}}
 
 \\textit{{Direções:}} 
-do problema 1 a 20 desenvolva as expressões usando o Trinômio Quadrado Perfeito. Do problema 21 a 60, fatore as expressões usando o mesmo teorema.
-
-
-\\subsection*{{Exemplos:}}
-Desenvolver: \\hspace*{{1cm}}\\((3a + 5b)^2 = 9a^2 + 30ab + 25b^2\\)
-\\\\
-Fatorar:\\hspace*{{2.2cm}}\\(16a^2 + 24ab + 9b^2 = (4a + 3b)^2\\)
+efetue as operações.
 
 {problems}
 
@@ -194,12 +197,47 @@ def subtracao_montada():
     return f'\\subt{{{a}}}{{{b}}}'
 
 def adicao_montada():
-    (a,b) = random.choices(range(5, 10), k=2)
+    weights = [1] + [60] * 5 + [39] * 4  # Probabilidades diferentes para cada coeficiente
+    (a,b) = random.choices(range(0, 10), weights=weights, k=2)
     return f'\\addi{{{a}}}{{{b}}}'
 
+def adicao_montada_3():
+    weights = [1] + [60] * 5 + [39] * 4  # Probabilidades diferentes para cada coeficiente
+    (a,b,c) = random.choices(range(0, 10), weights=weights, k=3)
+    return f'\\addim{{{a}}}{{{b}}}{{{c}}}'
+
+def adicao_linear():
+    weights = [1] + [40] * 5 + [59] * 4  # Probabilidades diferentes para cada coeficiente
+    (a,b) = random.choices(range(0, 10), weights=weights, k=2)
+    return f'\\addil{{{a}}}{{{b}}}'
+
+
 def multiplicacao_montada():
-    (a,b) = random.choices(range(2,10), k=2)
+    weights = [1] + [5] + [94]*8  # Probabilidades diferentes para cada coeficiente
+    (a,b) = random.choices(range(0, 10), weights=weights, k=2)    
     return f'\\mult{{{a}}}{{{b}}}'
+
+def multiplicacao_nove():
+    weights = [1] + [5] + [94]*8  # Probabilidades diferentes para cada coeficiente
+    a = random.choices(range(0, 10), weights=weights, k=1)[0]
+    return f'\\mult{{{9}}}{{{a}}}'
+
+def multiplicacao_oito():
+    weights = [1] + [5] + [94]*8  # Probabilidades diferentes para cada coeficiente
+    a = random.choices(range(0, 10), weights=weights, k=1)[0]
+    return f'\\mult{{{8}}}{{{a}}}'
+
+def multiplicacao_selecionada():
+    weights = [1] + [5] + [94]*8  # Probabilidades diferentes para cada coeficiente
+    a = random.choices(range(8,10), k=1)[0]
+    b = random.choices(range(0, 10), weights=weights, k=1)[0]
+
+    return f'\\mult{{{a}}}{{{b}}}'
+
+def adicao_montada_com_3():
+    weights = [1] + [40] * 5 + [59] * 4  # Probabilidades diferentes para cada coeficiente
+    (a,b, c) = random.choices(range(0, 10), weights=weights, k=3)
+    return f'\\addim{{{a}}}{{{b}}}{{{c}}}'
 
 # Existe um problema em que um número primo aparece para ser dividido por eles mesmos
 # Melhorar para que isso não aconteça
@@ -224,8 +262,32 @@ def fatoracao_trinomio_quadrado_perfeito():
     c = 2* int(a**(1/2))*int(b**(1/2))
     return f'\\triquadpftf{{{a}}}{{{b}}}{{{c}}}'
 
-def fator_comum_em_evidência():
-    pass 
+def fator_comum_em_evidência1():
+    while True:
+      a, b = random.randint(2, 30), random.randint(2, 30)
+      if gcd(a, b) > 1:
+          break
+    x, y = random.sample(['x', 'y', 'z', 'a', 'b'], 2)
+    expr_expandida = f"{a}{x} + {b}{y}"
+    return f'\\fatcomevum{{{latex(expr_expandida)}}}'
+
+def fator_comum_em_evidência2():
+    vars = random.sample(['x', 'y', 'z'], 2)
+    a, b = symbols('a b')
+    var1, var2 = symbols(vars[0]), symbols(vars[1])  # Converte strings em símbolos
+    grp1 = a * (var1 + var2)  # Ex: a*(x + y)
+    grp2 = b * (var1 + var2)  # Ex: b*(x + y)
+    expr_expandida = expand(grp1 + grp2)
+    # Formata a expressão expandida em LaTeX corretamente
+    return f'\\fatcomevdois{{{latex(expr_expandida)}}}'
+
+
+## erro nessa função
+def fator_comum_em_evidência3():
+    common_factor = sympify(f"x + {random.randint(1,5)}")
+    inner_expr = Add(*[symbols(c) for c in random.sample(['a', 'b', 'c'], 2)])
+    expanded = expand(common_factor * inner_expr)
+    return f'\\fatcomevtres{{{latex(expanded)}}}'
 
 # Cálculo
 def derivada_de_polinomio():
@@ -234,11 +296,11 @@ def derivada_de_polinomio():
 
 def get_row_of_random_problems(exercise_type):
     if exercise_type == 'tipo_a':
-        return f'\\pairofprobs{{{desenvolvimento_trinomio_quadrado_perfeito()}}}{{{desenvolvimento_trinomio_quadrado_perfeito()}}}'
+        return f'\\pairofprobs{{{adicao_montada_com_3()}}}{{{adicao_montada_com_3()}}}'
     elif exercise_type == 'tipo_b':
-        return f'\\pairofprobs{{{fatoracao_trinomio_quadrado_perfeito()}}}{{{fatoracao_trinomio_quadrado_perfeito()}}}'
+        return f'\\threeprobs{{{multiplicacao_selecionada()}}}{{{multiplicacao_selecionada()}}}{{{multiplicacao_selecionada()}}}'
     elif exercise_type == 'tipo_c':
-        return f'\\problem{{{fatoracao_trinomio_quadrado_perfeito()}}}'
+        return f'\\threeprobs{{{adicao_linear()}}}{{{adicao_linear()}}}{{{adicao_linear()}}}'
     # Add more types as needed
 
 def get_rows_of_random_problems(n, exercise_type):
@@ -248,14 +310,13 @@ def get_rows_of_random_problems(n, exercise_type):
     return rows
 
 # Gerar seções de diferentes tipos de exercícios
-problems_tipo_a = get_rows_of_random_problems(10, 'tipo_a')
-problems_tipo_b = get_rows_of_random_problems(20, 'tipo_b')
-problems_tipo_C = get_rows_of_random_problems(15, 'tipo_c')
+problems_tipo_a = get_rows_of_random_problems(75, 'tipo_a')
+problems_tipo_b = get_rows_of_random_problems(50, 'tipo_b')
+problems_tipo_c = get_rows_of_random_problems(83, 'tipo_c')
 
 
 # Para adicionar os problema do tipo b, basta usar '+ problems_tipo_b'
-worksheet = latex_template.format(problems=problems_tipo_a+problems_tipo_b)
-
+worksheet = latex_template.format(problems=problems_tipo_a +problems_tipo_b )
 with open('exercicios.tex', 'w', encoding='utf-8') as f: 
     f.write(worksheet)
 
